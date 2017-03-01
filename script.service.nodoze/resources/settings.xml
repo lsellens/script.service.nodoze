@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+
+   <!-- nodoze -->
+    <category label="32000">
+		<setting label="32001" type="lsep"/>
+		<setting type="sep" />
+		<setting id="PORTS" type="text" label="32002" default="22,8081,8082,8083,8084,9091,445" />
+    </category>
+</settings>

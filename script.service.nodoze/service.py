@@ -1,21 +1,50 @@
 from os import popen
 import xbmc
+import xbmcaddon
+import xbmcvfs
 
-ports = ['22', '8081', '8082', '8083', '8084', '9091']
+__addon__ = xbmcaddon.Addon(id='script.service.nodoze')
+__addonpath__ = xbmc.translatePath(__addon__.getAddonInfo('path'))
+__addonhome__ = xbmc.translatePath(__addon__.getAddonInfo('profile'))
+defaultsettings = xbmc.translatePath(__addonpath__ + '/settings-default.xml')
+settings = xbmc.translatePath(__addonhome__ + 'settings.xml')
+
+if not xbmcvfs.exists(settings):
+    xbmcvfs.copy(defaultsettings, settings)
+
+ports = __addon__.getSetting('PORTS')
+ports = ports.replace(" ", "").split(",")
+ipaddress = xbmc.getIPAddress()
+# assumes you're on a class c network
+ipaddresses = ipaddress.rsplit('.', 1)[0] + '.'
+inhibit = False
+
+
+class MyMonitor(xbmc.Monitor):
+    def __init__(self, *args, **kwargs):
+        xbmc.Monitor.__init__(self)
+    
+    def onSettingsChanged(self):
+        global ports
+        ports = __addon__.getSetting('PORTS')
+        ports = ports.replace(" ", "").split(",")
 
 if __name__ == '__main__':
-    monitor = xbmc.Monitor()
- 
+    monitor = MyMonitor()
+    
     while not monitor.abortRequested():
-        if monitor.waitForAbort(10):
+        if monitor.waitForAbort(60):
             xbmc.executebuiltin('InhibitIdleShutdown(false)')
             break
-
-        active = popen('netstat -tn | grep -E \'' + ''.join([':{} .*192.168.0.*ESTABLISHED|'.format(x) for x in ports]).rstrip('|') + '\'').read()
+        active = popen('netstat -tn | grep -E \'' + ''.join(
+            ['{0}:{1}.*{2}.*ESTABLISHED|'.format(ipaddress, x, ipaddresses) for x in ports]).rstrip('|') + '\'').read()
 
         if active:
             xbmc.executebuiltin('InhibitIdleShutdown(true)')
-            xbmc.log('nodoze: Preventing sleep', level=xbmc.LOGDEBUG)
-        else:
+            inhibit = True
+            xbmc.log('nodoze: Preventing sleep\n' + active, level=xbmc.LOGDEBUG)
+        elif inhibit:
             xbmc.executebuiltin('InhibitIdleShutdown(false)')
-            xbmc.log('nodoze: Not preventing sleep', level=xbmc.LOGDEBUG)
+            inhibit = False
+            xbmc.log('nodoze: Not preventing sleep. No activity on ports ' + str(ports).strip("[]"), level=xbmc.LOGDEBUG)
+

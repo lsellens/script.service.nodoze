@@ -6,9 +6,9 @@ LOCKFILE="/var/lock/nodoze.sleep"
 
 case "$1" in
   hibernate|suspend)
-    if [ ! -z "`ps | grep -E 'python.*script.service.nodoze' | awk '{print $1}'`" ] ; then
+    if [ ! -z "`ps | grep -E 'python.*script.service.nodoze' | grep -v 'grep' | awk '{print $1}'`" ] ; then
       progress "Shutting down nodoze for suspending..."
-      kill `ps | grep -E 'python.*script.service.nodoze' | awk '{print $1}'` 2>/dev/null
+      kill `ps | grep -E 'python.*script.service.nodoze' | grep -v 'grep' | awk '{print $1}'` 2>/dev/null
       touch $LOCKFILE
     fi
     ;;
