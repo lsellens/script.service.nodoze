@@ -4,6 +4,9 @@ import xbmcaddon
 import xbmcvfs
 
 __addon__ = xbmcaddon.Addon(id='script.service.nodoze')
+__scriptname__ = "nodoze"
+__author__ = "lsellens"
+__url__ = "https://github.com/lsellens/xbmc.addons"
 __addonpath__ = xbmc.translatePath(__addon__.getAddonInfo('path'))
 __addonhome__ = xbmc.translatePath(__addon__.getAddonInfo('profile'))
 defaultsettings = xbmc.translatePath(__addonpath__ + '/settings-default.xml')
