@@ -14,5 +14,11 @@
     <summary lang="en">nodoze is a script to keep a server from sleeping while its library is being accessed via ssh.</summary>
     <description lang="en">nodoze is a script to keep a server from sleeping while its library is being accessed via ssh.</description>
     <platform>linux</platform>
+    <license>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</license>
+    <source>https://github.com/lsellens/script.service.nodoze</source>
+    <news>0.0.2 - made ports configurable</news>
+    <assets>
+      <icon>resources/icon.png</icon>
+    </assets>
   </extension>
 </addon>
