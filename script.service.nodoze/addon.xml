@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="script.service.nodoze"
        name="nodoze"
-       version="0.0.2"
+       version="0.0.3"
        provider-name="lsellens">
   <requires>
     <import addon="xbmc.addon" version="14.0.0"/>
@@ -11,12 +11,12 @@
              library="service.py">
   </extension>
   <extension point="xbmc.addon.metadata">
-    <summary lang="en">nodoze is a script to keep a server from sleeping while its library is being accessed via ssh.</summary>
-    <description lang="en">nodoze is a script to keep a server from sleeping while its library is being accessed via ssh.</description>
+    <summary lang="en">nodoze is a script to keep a server from sleeping while connections are established on configured ports.</summary>
+    <description lang="en">nodoze is a script to keep a server from sleeping while connections are established on configured ports.</description>
     <platform>linux</platform>
     <license>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</license>
     <source>https://github.com/lsellens/script.service.nodoze</source>
-    <news>0.0.2 - made ports configurable</news>
+    <news>0.0.3 - Removed netstat dependency</news>
     <assets>
       <icon>resources/icon.png</icon>
     </assets>
